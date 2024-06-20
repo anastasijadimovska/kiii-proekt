@@ -1,0 +1,74 @@
+<html>
+<div xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <section class="jumbotron text-center"></section>
+    </head>
+</div>
+<body class="bg-light">
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <form method="POST" action="/reviews/add">
+                <div>
+                    <input type="hidden" name="id" th:value="(${review != null} ? ${review.getId()} : '')"/>
+                </div>
+                <div class="form-group">
+                    <label for="score">Review score</label>
+                    <input type="number"
+                           class="form-control"
+                           id="score"
+                           name="score"
+                           th:value="(${review} != null ? ${review.getScore()} : '')"
+                           required
+                           placeholder="Enter score">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea
+                           class="form-control"
+                           id="description"
+                           name="description"
+                           th:value="(${review} != null ? ${review.getDescription()} : '')"
+                           th:text="(${review} != null ? ${review.getDescription()} : '')"
+                              placeholder="Enter Description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="timestamp">Timestamp</label>
+                    <input type="datetime-local"
+                           class="form-control"
+                           id="timestamp"
+                           name="timestamp"
+                           th:value="(${review} != null ? ${review.getTimestamp()} : '')"
+                           placeholder="Timestamp">
+                </div>
+                <div class="form-group">
+                    <label>Book Stores</label>
+                    <select name="bookId" class="form-control">
+                        <option th:if="${review} != null"
+                                th:selected="${review.getBook() != null &&
+                                review.getBook().getId() == book.getId()}"
+                                th:each="book : ${books}"
+                                th:value="${book.getId()}"
+                                th:text="${book.getTitle()}">
+                        </option>
+                        <option th:if="${review} == null"
+                                th:each="book : ${books}"
+                                th:value="${book.getId()}"
+                                th:text="${book.getTitle()}">
+                        </option>
+                    </select>
+
+                </div>
+                <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+                <a type="button" class="btn btn-primary" href="/reviews">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

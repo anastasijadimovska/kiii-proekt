@@ -1,0 +1,76 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>Books Homepage - Welcome to My Book Store</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <style type="text/css">
+    body {
+      width: 800px;
+      margin: auto;
+    }
+    .book-container {
+      display: flex;
+      align-items: center;
+    }
+    .book {
+      margin-right: 20px;
+    }
+  </style>
+</head>
+<body class="bg-light">
+<header>
+  <h1>Welcome to My Book Store</h1>
+</header>
+<div th:if="${hasError}">
+  <h1 class="text-center text-danger" th:text="${error}"></h1>
+</div>
+<main>
+  <form  th:method="POST" th:action="@{/bookStore}" id="submitForm" name="submitForm" >
+    <h2>Choose book:</h2>
+    <!-- Display radio buttons for each book,
+            the value should be the isbn
+            and the displayed text should be Title: <bookTitle>, Genre:<genre>, Year: <year> -->
+    <div class="book-container" th:each="bookStore : ${bookStores}">
+      <div class="book">
+        <input type="radio" name="bookId" th:value="${bookStore.getId()}" th:text="${bookStore.getId()}" form="submitForm" ><br>
+        <label style="font-weight: bold"> Name: </label><span th:value="${bookStore.getName()}" th:text="${bookStore.getName()}" ></span> <br/>
+        <label style="font-weight: bold"> City: </label><span th:value="${bookStore.getCity()}" th:text="${bookStore.getCity()}"></span> <br/>
+        <label style="font-weight: bold"> Address: </label><span th:value="${bookStore.getAddress()}" th:text="${bookStore.getAddress()}"></span><br/>
+        <label style="font-weight: bold"> Number of copies: </label><span th:value="${bookStore.getNumberOfCopies()}" th:text="${bookStore.getNumberOfCopies()}"></span><br/>
+      </div>
+      <div style="display: inline">
+        <th:block>
+          <div>
+            <a th:href="@{'/bookStore/edit-form/{id}' (id=${bookStore.getId()})}"
+               class="btn btn-sm btn-info edit-product">
+              <i class="fa fa-trash">Edit</i>
+            </a>
+          </div>
+        </th:block>
+<!--        <div>-->
+<!--          <a th:href="@{'/bookStore/delete/{id}' (id=${bookStore.getId()})}"-->
+<!--             class="btn btn-sm btn-danger delete-product">-->
+<!--            <i class="fa fa-trash">Delete</i>-->
+<!--          </a>-->
+<!--        </div>-->
+                    <th:block>
+
+                        <form th:action="@{'/bookStore/delete/{id}' (id=${bookStore.getId()})}" th:method="DELETE" >
+                             <input type="submit" class="btn btn-sm btn-danger delete-product" value="Delete">
+                        </form>
+                    </th:block>
+      </div>
+    </div>
+
+    <a href="/bookStore/add-form" class="btn btn-dark add-product-btn">
+      Add new book store
+    </a>
+  </form>
+</main>
+</body>
+</html>
