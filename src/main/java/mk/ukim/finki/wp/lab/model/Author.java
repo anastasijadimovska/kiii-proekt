@@ -26,6 +26,7 @@ public class Author {
         this.dateOfBirth = dateOfBirth;
     }
     public Author( String name, String surname, String biography,LocalDate dateOfBirth) {
+        this.id = (long) (Math.random() * 1000);
         this.fullName = new AuthorFullname(name,surname);
         this.biography = biography;
         this.dateOfBirth = dateOfBirth;
