@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Book Reviews - My Book Store</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <header class="text-center">
+        <h1>Book Reviews -  <a style="color: black" th:href="@{/books}">My Book Store</a></h1>
+    </header>
+    <main>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h2 class="text-center">Choose a Book</h2>
+                <form th:method="POST" th:action="@{/reviews}" id="bookForm" name="bookForm">
+                    <div class="form-group">
+                        <label for="bookId">Select a Book:</label>
+                        <select class="form-control" id="bookId" name="bookId" form="bookForm" >
+                            <option th:each="book : ${books}" th:value="${book.getId()}" th:text="${book.getTitle()}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fromInput">From:</label>
+                        <input class="form-control" id="fromInput" name="fromInput" type="datetime-local"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="toInput">To:</label>
+                        <input class="form-control" id="toInput" name="toInput" type="datetime-local"/>
+                    </div>
+                    <a href="/reviews/add-form" class="btn btn-dark add-product-btn">
+                        Add new review
+                    </a>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+                <h2 class="mt-4 text-center">Book Reviews</h2>
+                <div th:if="${selectedBook != null}">
+                    <h3 th:text="${selectedBook.title}" class="text-center"></h3>
+                    <div th:each="review : ${reviews}">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <p class="card-text" style="font-size: small" th:text="${#temporals.format(review.getTimestamp(), 'dd-MM-yyyy HH:mm:ss')}"></p>
+                                <p class="card-title"   ><i style="font-weight: bold" th:text="${review.getDescription()}"></i></p>
+                                <label>Rating:  <span class="card-text" th:text="${review.getScore()}"></span></label>
+
+                                <div class="d-flex justify-content-end mt-2">
+                                    <th:block>
+                                        <div class="mr-2">
+                                            <a th:href="@{'/reviews/edit-form/{id}' (id=${review.getId()})}" class="btn btn-sm btn-info edit-product">
+                                                <i class="fa fa-edit"></i> Edit
+                                            </a>
+                                        </div>
+                                    </th:block>
+                                    <th:block>
+                                        <div>
+                                            <form th:action="@{'/reviews/delete/' + ${review.getId()}}" th:method="POST" >
+                                                <input type="submit" class="btn btn-sm btn-danger delete-product" value="Delete">
+                                            </form>
+                                        </div>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

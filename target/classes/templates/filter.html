@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Search</title>
+</head>
+<body>
+
+<h2>Book Search</h2>
+
+<form th:action="@{/filter}" th:method="post">
+
+  <label for="bookTitle">Book Title:</label>
+  <input type="text" id="bookTitle" name="title"/>
+
+  <br/>
+
+  <label for="bookYear">Book Year:</label>
+  <input type="number" id="bookYear" name="year"/>
+
+  <br/>
+
+  <button type="submit">Search</button>
+
+</form>
+
+<h3>Found Book:</h3>
+<ul th:each="book : ${session.filterBooks}">
+  <li th:text="${book.getTitle()} + ' ' + ${book.getYear()}"></li>
+</ul>
+
+
+</body>
+</html>
