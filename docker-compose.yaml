@@ -9,17 +9,13 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
     ports:
-      - "5555:5432"
+      - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     restart: always
 
   kiii-app:
-    image: 'kiii-project-image'
-    container_name: kiii-web
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: 'anastasijadimovska/kiii-proekt:latest'
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/kiiiproekt
       - SPRING_DATASOURCE_USERNAME=postgres
