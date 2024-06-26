@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-configmap
+  namespace: kiii-proekt
+data:
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://db-service:5432/kiiiproekt"
+  SPRING_DATASOURCE_USERNAME: "postgres"
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secrets
+  namespace: kiii-proekt
+type: Opaque
+data:
+  SPRING_DATASOURCE_PASSWORD: cm9vdA==
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kiii-app-deploy
+  namespace: kiii-proekt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kiii-app
+  template:
+    metadata:
+      labels:
+        app: kiii-app
+    spec:
+      containers:
+        - name: kiii-app
+          image: anastasijadimovska/kiii-proekt:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: SPRING_DATASOURCE_PASSWORD
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+  namespace: kiii-proekt
+spec:
+  selector:
+    app: kiii-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9090
