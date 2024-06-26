@@ -55,7 +55,7 @@ public class DataHolder {
        bookPrices = List.of(new BookPrice(542,20),new BookPrice(280,20),new BookPrice(420,20),new BookPrice(265,10),new BookPrice(350,15));
        bookPriceJpaRepository.saveAll(bookPrices);
 
-       books.add(new Book("HT", "Home at Night", "Mystery",2023,List.of(authors.get(0)),bookStores.get(0),bookPrices.get(0)));
+       books.add(new Book("HaT", "Home at Night", "Mystery",2023,List.of(authors.get(0)),bookStores.get(0),bookPrices.get(0)));
         books.add(new Book("LS", "Let it Snow", "Christmas",2008,List.of(authors.get(1),authors.get(2)),bookStores.get(1),bookPrices.get(1)));
         books.add(new Book("HPSS", "Harry Potter and the Sorcerer's Stone","Fiction",2001,List.of(authors.get(3)),bookStores.get(2),bookPrices.get(2)));
         books.add(new Book("AAW", "Alice's Adventures in Wonderland","Fantasy",1865,List.of(authors.get(4)),bookStores.get(3),bookPrices.get(3)));
