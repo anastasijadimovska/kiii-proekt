@@ -38,7 +38,7 @@ public class DataHolder {
     public void init(){
         authors.add(new Author("Paula","Munier","The author that wrote Home at Night", LocalDate.of(1975,10,15)));
         authors.add(new Author("John","Green","The author that wrote Let it Snow", LocalDate.of(1995,7,2)));
-        authors.add(new Author("Maureen","Johnson","The author that wrote Let it Snow", LocalDate.of(1999,9,5)));
+        authors.add(new Author("Mauren","Johnson","The author that wrote Let it Snow", LocalDate.of(1999,9,5)));
         authors.add(new Author("Joanne","Rowling","The author that wrote Harry Potter", LocalDate.of(1978,10,8)));
         authors.add(new Author("Lewis","Carroll","The author that wrote Alice's Adventures in Wonderland", LocalDate.of(1955,10,24)));
        authorJpaRepository.saveAll(authors);
